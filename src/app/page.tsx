@@ -1,69 +1,88 @@
-import Image from "next/image";
-
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="min-h-screen bg-black text-white">
+      {/* Navigation */}
+      <nav className="border-b border-zinc-800 px-8 py-5 flex justify-between items-center">
+        <span className="font-bold text-lg tracking-tight">Proof of Progress</span>
+        <a
+          href="/sign-up"
+          className="bg-white text-black text-sm font-semibold px-5 py-2 rounded hover:bg-zinc-200 transition"
+        >
+          Create a commitment
+        </a>
+      </nav>
+
+      {/* Hero */}
+      <section className="max-w-3xl mx-auto px-8 pt-28 pb-20 text-center">
+        <h1 className="text-5xl font-bold leading-tight tracking-tight mb-6">
+          Ship your next meaningful result—or forfeit.
+        </h1>
+        <p className="text-zinc-400 text-xl mb-10 leading-relaxed">
+          Proof of Progress turns your most important founder commitment into a contract.
+          Define the work, put money on the line, prove you shipped.
+        </p>
+        <a
+          href="/sign-up"
+          className="bg-white text-black font-semibold px-8 py-4 rounded text-lg hover:bg-zinc-200 transition"
+        >
+          Create a commitment
+        </a>
+      </section>
+
+      {/* How it works */}
+      <section className="border-t border-zinc-800 max-w-3xl mx-auto px-8 py-20">
+        <h2 className="text-2xl font-bold mb-12 text-center tracking-tight">How it works</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div>
+            <div className="text-zinc-500 text-sm font-semibold mb-2">01</div>
+            <h3 className="font-bold text-lg mb-2">Commit</h3>
+            <p className="text-zinc-400 text-sm leading-relaxed">
+              Define one measurable shipping outcome and a deadline. No vague goals. No habits. One result.
+            </p>
+          </div>
+          <div>
+            <div className="text-zinc-500 text-sm font-semibold mb-2">02</div>
+            <h3 className="font-bold text-lg mb-2">Stake</h3>
+            <p className="text-zinc-400 text-sm leading-relaxed">
+              Put money on the line. If you ship, you keep it. If you don't, you forfeit. Real consequences only.
+            </p>
+          </div>
+          <div>
+            <div className="text-zinc-500 text-sm font-semibold mb-2">03</div>
+            <h3 className="font-bold text-lg mb-2">Prove</h3>
+            <p className="text-zinc-400 text-sm leading-relaxed">
+              Submit the pre-agreed evidence before time runs out. A referee or self-review confirms completion.
+            </p>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* Example commitments */}
+      <section className="border-t border-zinc-800 max-w-3xl mx-auto px-8 py-20">
+        <h2 className="text-2xl font-bold mb-10 text-center tracking-tight">Example commitments</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {[
+            "Publish a live landing page for my SaaS by Friday.",
+            "Conduct 10 customer interviews and upload notes.",
+            "Send 100 personalized prospecting emails.",
+            "Release version 1.0 with a public demo URL.",
+            "Publish my product on Product Hunt.",
+            "Publish four technical blog posts this month.",
+          ].map((example) => (
+            <div
+              key={example}
+              className="border border-zinc-800 rounded px-5 py-4 text-sm text-zinc-300"
+            >
+              {example}
+            </div>
+          ))}
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-zinc-800 px-8 py-8 text-center text-zinc-600 text-sm">
+        Proof of Progress — A commitment contract for indie hackers.
+      </footer>
+    </main>
   );
 }
