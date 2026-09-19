@@ -48,6 +48,10 @@ export default function Login() {
           <button disabled={loading} className="w-full bg-white text-black font-bold py-3 rounded">
             {loading ? 'Processing...' : 'Login'}
           </button>
+
+          <a href="/forgot-password" className="block text-center text-zinc-500 text-xs mt-4 underline">
+            Forgot password?
+          </a>
         </form>
         {message && <p className="mt-4 text-sm text-center text-zinc-400">{message}</p>}
       </div>
