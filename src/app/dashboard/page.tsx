@@ -4,6 +4,75 @@ import { useEffect, useState } from 'react'
 import { supabase } from '@/utils/supabase'
 import { useRouter } from 'next/navigation'
 
+function CountdownTimer({ deadline }: { deadline: string }) {
+  const [timeLeft, setTimeLeft] = useState<{ days: number; hours: number; minutes: number; seconds: number } | null>(null)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
+        router.push('/login')
+        return
+      }
+      setUser(user)
+
+      // Check if arriving from a successful Stripe checkout
+      const params = new URLSearchParams(window.location.search)
+      const paymentStatus = params.get('payment')
+      const commitmentId = params.get('commitment_id')
+
+      if (paymentStatus === 'success' && commitmentId) {
+        await supabase
+          .from('commitments')
+          .update({ status: 'active' })
+          .eq('id', commitmentId)
+          .eq('user_id', user.id)
+      }
+
+      // Fetch the latest active or submitted commitment (ignore payment_pending)
+      const { data } = await supabase
+        .from('commitments')
+        .select('*')
+        .eq('user_id', user.id)
+        .in('status', ['active', 'submitted', 'completed', 'failed'])
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single()
+
+      if (data) {
+        setCommitment(data)
+      }
+      setLoading(false)
+    }
+    fetchData()
+  }, [router])
+
+  if (!timeLeft) {
+    return <span className="text-red-500 font-bold tracking-widest text-xs">DEADLINE EXPIRED</span>
+  }
+
+  return (
+    <div className="grid grid-cols-4 gap-2 text-center pt-2">
+      <div className="bg-zinc-900 border border-zinc-800 rounded py-3 flex flex-col items-center justify-center gap-1">
+        <div className="text-xl font-black leading-none">{timeLeft.days}</div>
+        <div className="text-[9px] uppercase text-zinc-500 tracking-wider leading-none">Days</div>
+      </div>
+      <div className="bg-zinc-900 border border-zinc-800 rounded py-3 flex flex-col items-center justify-center gap-1">
+        <div className="text-xl font-black leading-none">{timeLeft.hours}</div>
+        <div className="text-[9px] uppercase text-zinc-500 tracking-wider leading-none">Hours</div>
+      </div>
+      <div className="bg-zinc-900 border border-zinc-800 rounded py-3 flex flex-col items-center justify-center gap-1">
+        <div className="text-xl font-black leading-none">{timeLeft.minutes}</div>
+        <div className="text-[9px] uppercase text-zinc-500 tracking-wider leading-none">Min</div>
+      </div>
+      <div className="bg-zinc-900 border border-zinc-800 rounded py-3 flex flex-col items-center justify-center gap-1">
+        <div className="text-xl font-black leading-none">{timeLeft.seconds}</div>
+        <div className="text-[9px] uppercase text-zinc-500 tracking-wider leading-none">Sec</div>
+      </div>
+    </div>
+  )
+}
+
 export default function Dashboard() {
   const [user, setUser] = useState<any>(null)
   const [commitment, setCommitment] = useState<any>(null)
@@ -19,8 +88,7 @@ export default function Dashboard() {
       }
       setUser(user)
 
-      // Fetch the latest active commitment
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('commitments')
         .select('*')
         .eq('user_id', user.id)
@@ -83,34 +151,34 @@ export default function Dashboard() {
 
               <div className="pt-4">
                 {commitment.status === 'active' && (
-                    <a 
+                  <a 
                     href="/submit"
                     className="w-full bg-white text-black py-4 rounded font-black hover:bg-zinc-200 transition uppercase tracking-widest text-sm block text-center"
-                    >
+                  >
                     Submit Proof of Progress
-                    </a>
+                  </a>
                 )}
 
                 {commitment.status === 'submitted' && (
-                    <div className="w-full border border-zinc-800 text-zinc-500 py-4 rounded font-bold uppercase tracking-widest text-sm text-center bg-zinc-950">
+                  <div className="w-full border border-zinc-800 text-zinc-400 py-4 rounded font-bold uppercase tracking-widest text-sm text-center bg-zinc-950">
                     Awaiting Review
-                    </div>
+                  </div>
                 )}
 
                 {commitment.status === 'completed' && (
-                    <div className="w-full border border-green-900 text-green-500 py-4 rounded font-bold uppercase tracking-widest text-sm text-center bg-green-950/20">
+                  <div className="w-full border border-green-900 text-green-500 py-4 rounded font-bold uppercase tracking-widest text-sm text-center bg-green-950/20">
                     Commitment Completed • Stake Released
-                    </div>
+                  </div>
                 )}
 
                 {commitment.status === 'failed' && (
-                    <div className="w-full border border-red-900 text-red-500 py-4 rounded font-bold uppercase tracking-widest text-sm text-center bg-red-950/20">
+                  <div className="w-full border border-red-900 text-red-500 py-4 rounded font-bold uppercase tracking-widest text-sm text-center bg-red-950/20">
                     Commitment Failed • Stake Forfeited
-                    </div>
+                  </div>
                 )}
                 
-                <p className="text-center text-[10px] text-zinc-600 mt-4 uppercase">Locked commitment — No edits allowed</p>
-                </div>
+                <p className="text-center text-[10px] text-zinc-600 mt-4 uppercase tracking-wider">Locked commitment — No edits allowed</p>
+              </div>
             </div>
 
             {/* Sidebar Stats */}
@@ -130,14 +198,8 @@ export default function Dashboard() {
               </div>
 
               <div className="pt-4 border-t border-zinc-900">
-                <span className="text-zinc-500 uppercase text-[10px] tracking-widest block mb-2 font-semibold text-center">Deadline</span>
-                <div className="text-sm font-bold text-center">
-                  {new Date(commitment.deadline).toLocaleDateString('en-GB', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric'
-                  })}
-                </div>
+                <span className="text-zinc-500 uppercase text-[10px] tracking-widest block mb-2 font-semibold text-center">Time Remaining</span>
+                <CountdownTimer deadline={commitment.deadline} />
               </div>
             </div>
           </div>

@@ -39,21 +39,59 @@ export default function CreateCommitment() {
   const handleBack = () => setStep(step - 1)
 
   const handleSubmit = async () => {
-    setLoading(true)
-    const { error } = await supabase.from('commitments').insert([
-      { 
-        ...formData, 
-        user_id: userId,
-        status: 'active'
-      }
-    ])
+    if (!userId) return
 
-    if (error) {
-      alert(`Error: ${error.message}`)
-    } else {
-      router.push('/dashboard')
+    setLoading(true)
+
+    // 1. Save with payment_pending status and retrieve the generated row
+    const { data, error } = await supabase
+      .from('commitments')
+      .insert([
+        {
+          ...formData,
+          user_id: userId,
+          status: 'payment_pending',
+        },
+      ])
+      .select('id')
+      .single()
+
+    if (error || !data) {
+      alert(`Error: ${error?.message || 'Could not save commitment'}`)
+      setLoading(false)
+      return
     }
-    setLoading(false)
+
+    // 2. Create Stripe session passing the commitment ID
+    try {
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: formData.stake_amount,
+          title: formData.title,
+          commitmentId: data.id,
+        }),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Unable to create Stripe Checkout session')
+      }
+
+      if (!result.url) {
+        throw new Error('Stripe did not return a checkout URL')
+      }
+
+      window.location.href = result.url
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Payment error'
+      alert(message)
+      setLoading(false)
+    }
   }
 
   if (!userId) return <div className="bg-black min-h-screen text-white p-8">Loading...</div>
