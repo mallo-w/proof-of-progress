@@ -8,44 +8,24 @@ function CountdownTimer({ deadline }: { deadline: string }) {
   const [timeLeft, setTimeLeft] = useState<{ days: number; hours: number; minutes: number; seconds: number } | null>(null)
 
   useEffect(() => {
-    const fetchData = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) {
-        router.push('/login')
+    const calculateTime = () => {
+      const difference = new Date(deadline).getTime() - new Date().getTime()
+      if (difference <= 0) {
+        setTimeLeft(null)
         return
       }
-      setUser(user)
-
-      // Check if arriving from a successful Stripe checkout
-      const params = new URLSearchParams(window.location.search)
-      const paymentStatus = params.get('payment')
-      const commitmentId = params.get('commitment_id')
-
-      if (paymentStatus === 'success' && commitmentId) {
-        await supabase
-          .from('commitments')
-          .update({ status: 'active' })
-          .eq('id', commitmentId)
-          .eq('user_id', user.id)
-      }
-
-      // Fetch the latest active or submitted commitment (ignore payment_pending)
-      const { data } = await supabase
-        .from('commitments')
-        .select('*')
-        .eq('user_id', user.id)
-        .in('status', ['active', 'submitted', 'completed', 'failed'])
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .single()
-
-      if (data) {
-        setCommitment(data)
-      }
-      setLoading(false)
+      setTimeLeft({
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      })
     }
-    fetchData()
-  }, [router])
+
+    calculateTime()
+    const timer = setInterval(calculateTime, 1000)
+    return () => clearInterval(timer)
+  }, [deadline])
 
   if (!timeLeft) {
     return <span className="text-red-500 font-bold tracking-widest text-xs">DEADLINE EXPIRED</span>
@@ -88,10 +68,25 @@ export default function Dashboard() {
       }
       setUser(user)
 
+      // Check if arriving from a successful Stripe checkout
+      const params = new URLSearchParams(window.location.search)
+      const paymentStatus = params.get('payment')
+      const commitmentId = params.get('commitment_id')
+
+      if (paymentStatus === 'success' && commitmentId) {
+        await supabase
+          .from('commitments')
+          .update({ status: 'active' })
+          .eq('id', commitmentId)
+          .eq('user_id', user.id)
+      }
+
+      // Fetch the latest active or submitted commitment (ignore payment_pending)
       const { data } = await supabase
         .from('commitments')
         .select('*')
         .eq('user_id', user.id)
+        .in('status', ['active', 'submitted', 'completed', 'failed'])
         .order('created_at', { ascending: false })
         .limit(1)
         .single()
