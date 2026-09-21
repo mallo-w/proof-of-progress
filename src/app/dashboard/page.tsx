@@ -155,8 +155,32 @@ export default function Dashboard() {
                 )}
 
                 {commitment.status === 'submitted' && (
-                  <div className="w-full border border-zinc-800 text-zinc-400 py-4 rounded font-bold uppercase tracking-widest text-sm text-center bg-zinc-950">
-                    Awaiting Review
+                  <div className="space-y-3">
+                    <div className="w-full border border-zinc-800 text-zinc-400 py-4 rounded font-bold uppercase tracking-widest text-sm text-center bg-zinc-950">
+                      Awaiting Review
+                    </div>
+                    {user?.email === 'mallory@system-strategy.co' && (
+                      <div className="grid grid-cols-2 gap-3">
+                        <button
+                          onClick={async () => {
+                            await supabase.from('commitments').update({ status: 'completed' }).eq('id', commitment.id)
+                            window.location.reload()
+                          }}
+                          className="bg-green-600 hover:bg-green-500 text-white py-3 rounded font-bold uppercase text-xs tracking-widest transition"
+                        >
+                          Mark Complete
+                        </button>
+                        <button
+                          onClick={async () => {
+                            await supabase.from('commitments').update({ status: 'failed' }).eq('id', commitment.id)
+                            window.location.reload()
+                          }}
+                          className="bg-red-600 hover:bg-red-500 text-white py-3 rounded font-bold uppercase text-xs tracking-widest transition"
+                        >
+                          Mark Failed
+                        </button>
+                      </div>
+                    )}
                   </div>
                 )}
 
