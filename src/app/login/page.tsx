@@ -25,8 +25,8 @@ export default function Login() {
   }
 
   return (
-    <main className="min-h-screen bg-black text-white flex flex-col items-center justify-center px-8">
-      <div className="max-w-md w-full border border-zinc-800 p-10 rounded">
+    <main className="min-h-screen bg-black text-white flex flex-col items-center justify-center px-5 sm:px-8 py-10">
+      <div className="max-w-md w-full border border-zinc-800 p-6 sm:p-10 rounded">
         <h1 className="text-2xl font-bold mb-6">Login to Proof of Progress</h1>
         <form onSubmit={handleLogin} className="space-y-4">
           <input

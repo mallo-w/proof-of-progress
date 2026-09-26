@@ -102,9 +102,9 @@ export default function Dashboard() {
   if (loading) return <div className="bg-black min-h-screen text-white p-8 font-mono">Loading contract...</div>
 
   return (
-    <main className="min-h-screen bg-black text-white p-8 md:p-20">
+    <main className="min-h-screen bg-black text-white p-5 sm:p-8 md:p-20">
       <div className="max-w-4xl mx-auto">
-        <div className="flex justify-between items-center mb-12 border-b border-zinc-800 pb-6">
+        <div className="flex justify-between items-center gap-3 mb-8 sm:mb-12 border-b border-zinc-800 pb-6">
           <div>
             <h1 className="text-xl font-bold tracking-tight">Proof of Progress</h1>
             <p className="text-zinc-500 text-xs mt-1">{user?.email}</p>
@@ -125,15 +125,15 @@ export default function Dashboard() {
             </a>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
             {/* Main Info */}
-            <div className="md:col-span-2 space-y-8">
+            <div className="md:col-span-2 space-y-8 order-2 md:order-1">
               <div>
                 <span className="text-zinc-500 uppercase text-[10px] tracking-widest block mb-2 font-semibold">Active Commitment</span>
-                <h2 className="text-4xl font-black leading-tight">{commitment.title}</h2>
+                <h2 className="text-3xl sm:text-4xl font-black leading-tight break-words">{commitment.title}</h2>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-8 border-t border-b border-zinc-800">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 py-8 border-t border-b border-zinc-800">
                 <div>
                   <span className="text-zinc-500 uppercase text-[10px] tracking-widest block mb-2 font-semibold">Binary Criteria</span>
                   <p className="text-sm text-zinc-300 leading-relaxed italic">"{commitment.binary_completion_criteria}"</p>
@@ -201,7 +201,7 @@ export default function Dashboard() {
             </div>
 
             {/* Sidebar Stats */}
-            <div className="bg-zinc-950 border border-zinc-800 p-8 rounded space-y-8 h-fit">
+            <div className="bg-zinc-950 border border-zinc-800 p-6 sm:p-8 rounded space-y-8 h-fit order-1 md:order-2">
               <div>
                 <span className="text-zinc-500 uppercase text-[10px] tracking-widest block mb-2 font-semibold text-center">Status</span>
                 <div className="text-center">

@@ -2,36 +2,36 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-black text-white">
       {/* Navigation */}
-      <nav className="border-b border-zinc-800 px-8 py-5 flex justify-between items-center">
-        <span className="font-bold text-lg tracking-tight">Proof of Progress</span>
+      <nav className="border-b border-zinc-800 px-5 sm:px-8 py-4 sm:py-5 flex justify-between items-center gap-3">
+        <span className="font-bold text-base sm:text-lg tracking-tight">Proof of Progress</span>
         <a
           href="/sign-up"
-          className="bg-white text-black text-sm font-semibold px-5 py-2 rounded hover:bg-zinc-200 transition"
+          className="bg-white text-black text-xs sm:text-sm font-semibold px-4 sm:px-5 py-2 rounded hover:bg-zinc-200 transition whitespace-nowrap"
         >
           Create a commitment
         </a>
       </nav>
 
       {/* Hero */}
-      <section className="max-w-3xl mx-auto px-8 pt-28 pb-20 text-center">
-        <h1 className="text-5xl font-bold leading-tight tracking-tight mb-6">
+      <section className="max-w-3xl mx-auto px-5 sm:px-8 pt-16 sm:pt-28 pb-16 sm:pb-20 text-center">
+        <h1 className="text-3xl sm:text-5xl font-bold leading-tight tracking-tight mb-6">
           Ship your next meaningful result—or forfeit.
         </h1>
-        <p className="text-zinc-400 text-xl mb-10 leading-relaxed">
+        <p className="text-zinc-400 text-base sm:text-xl mb-10 leading-relaxed">
           Proof of Progress turns your most important founder commitment into a contract.
           Define the work, put money on the line, prove you shipped.
         </p>
         <a
           href="/sign-up"
-          className="bg-white text-black font-semibold px-8 py-4 rounded text-lg hover:bg-zinc-200 transition"
+          className="block sm:inline-block w-full sm:w-auto bg-white text-black font-semibold px-8 py-4 rounded text-base sm:text-lg hover:bg-zinc-200 transition"
         >
           Create a commitment
         </a>
       </section>
 
       {/* How it works */}
-      <section className="border-t border-zinc-800 max-w-3xl mx-auto px-8 py-20">
-        <h2 className="text-2xl font-bold mb-12 text-center tracking-tight">How it works</h2>
+      <section className="border-t border-zinc-800 max-w-3xl mx-auto px-5 sm:px-8 py-14 sm:py-20">
+        <h2 className="text-2xl font-bold mb-10 sm:mb-12 text-center tracking-tight">How it works</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div>
             <div className="text-zinc-500 text-sm font-semibold mb-2">01</div>
@@ -58,7 +58,7 @@ export default function Home() {
       </section>
 
       {/* Example commitments */}
-      <section className="border-t border-zinc-800 max-w-3xl mx-auto px-8 py-20">
+      <section className="border-t border-zinc-800 max-w-3xl mx-auto px-5 sm:px-8 py-14 sm:py-20">
         <h2 className="text-2xl font-bold mb-10 text-center tracking-tight">Example commitments</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
@@ -80,7 +80,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-zinc-800 px-8 py-8 text-center text-zinc-600 text-sm">
+      <footer className="border-t border-zinc-800 px-5 sm:px-8 py-8 text-center text-zinc-600 text-sm">
         Proof of Progress — A commitment contract for indie hackers.
       </footer>
     </main>

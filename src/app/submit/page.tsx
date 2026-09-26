@@ -48,8 +48,8 @@ export default function SubmitEvidence() {
   if (!commitment) return <div className="bg-black min-h-screen text-white p-8">Loading...</div>
 
   return (
-    <main className="min-h-screen bg-black text-white p-8 flex flex-col items-center justify-center">
-      <div className="max-w-md w-full border border-zinc-800 p-10 rounded">
+    <main className="min-h-screen bg-black text-white p-5 sm:p-8 flex flex-col items-center justify-center">
+      <div className="max-w-md w-full border border-zinc-800 p-6 sm:p-10 rounded">
         <h1 className="text-xl font-bold mb-2">Submit Proof of Progress</h1>
         <p className="text-zinc-500 text-sm mb-8">
           You are submitting proof for: <span className="text-white font-semibold">{commitment.title}</span>

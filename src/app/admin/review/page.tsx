@@ -46,9 +46,9 @@ export default function AdminReview() {
   if (loading) return <div className="bg-black min-h-screen text-white p-8 font-mono">Loading review queue...</div>
 
   return (
-    <main className="min-h-screen bg-black text-white p-8 md:p-20">
+    <main className="min-h-screen bg-black text-white p-5 sm:p-8 md:p-20">
       <div className="max-w-4xl mx-auto space-y-8">
-        <div className="flex justify-between items-center border-b border-zinc-800 pb-6">
+        <div className="flex justify-between items-center gap-3 border-b border-zinc-800 pb-6">
           <h1 className="text-xl font-bold tracking-tight">Admin Review Queue</h1>
           <a href="/dashboard" className="text-zinc-500 hover:text-white text-xs underline">Back to Dashboard</a>
         </div>
@@ -60,13 +60,13 @@ export default function AdminReview() {
         ) : (
           <div className="space-y-6">
             {commitments.map((c) => (
-              <div key={c.id} className="border border-zinc-800 bg-zinc-950 p-6 rounded space-y-4">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-semibold">User: {c.user_id}</span>
-                    <h2 className="text-2xl font-black">{c.title}</h2>
+              <div key={c.id} className="border border-zinc-800 bg-zinc-950 p-5 sm:p-6 rounded space-y-4">
+                <div className="flex justify-between items-start gap-3">
+                  <div className="min-w-0">
+                    <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-semibold break-all">User: {c.user_id}</span>
+                    <h2 className="text-xl sm:text-2xl font-black break-words">{c.title}</h2>
                   </div>
-                  <span className="text-xl font-bold text-white">€{c.stake_amount}</span>
+                  <span className="text-xl font-bold text-white whitespace-nowrap">€{c.stake_amount}</span>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs border-t border-b border-zinc-900 py-3 text-zinc-400">
@@ -80,7 +80,7 @@ export default function AdminReview() {
                   </div>
                 </div>
 
-                <div className="flex gap-4 pt-2">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2">
                   <button
                     onClick={() => handleVerdict(c.id, 'completed')}
                     className="flex-1 bg-green-600 hover:bg-green-500 text-white py-3 rounded font-bold uppercase text-xs tracking-widest transition"

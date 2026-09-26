@@ -97,8 +97,8 @@ export default function CreateCommitment() {
   if (!userId) return <div className="bg-black min-h-screen text-white p-8">Loading...</div>
 
   return (
-    <main className="min-h-screen bg-black text-white flex flex-col items-center py-20 px-8">
-      <div className="max-w-xl w-full border border-zinc-800 p-10 rounded">
+    <main className="min-h-screen bg-black text-white flex flex-col items-center py-10 sm:py-20 px-5 sm:px-8">
+      <div className="max-w-xl w-full border border-zinc-800 p-6 sm:p-10 rounded">
         
         <div className="flex justify-between mb-10 text-xs font-mono text-zinc-500">
           <span>STEP {step} / 4</span>
