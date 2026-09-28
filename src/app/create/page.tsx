@@ -98,7 +98,7 @@ export default function CreateCommitment() {
 
   return (
     <main className="min-h-screen bg-black text-white flex flex-col items-center py-10 sm:py-20 px-5 sm:px-8">
-      <div className="max-w-xl w-full border border-zinc-800 p-6 sm:p-10 rounded">
+      <div className="max-w-xl w-full border border-zinc-800 p-6 sm:p-8 rounded">
         
         <div className="flex justify-between mb-10 text-xs font-mono text-zinc-500">
           <span>STEP {step} / 4</span>

@@ -1,3 +1,11 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: { absolute: "Proof of Progress — Commit or Lose" },
+  description:
+    "Ship your next meaningful result—or forfeit. A commitment contract for indie hackers and founders.",
+};
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-black text-white">
@@ -32,7 +40,7 @@ export default function Home() {
       {/* How it works */}
       <section className="border-t border-zinc-800 max-w-3xl mx-auto px-5 sm:px-8 py-14 sm:py-20">
         <h2 className="text-2xl font-bold mb-10 sm:mb-12 text-center tracking-tight">How it works</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <div className="text-zinc-500 text-sm font-semibold mb-2">01</div>
             <h3 className="font-bold text-lg mb-2">Commit</h3>
@@ -81,7 +89,10 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="border-t border-zinc-800 px-5 sm:px-8 py-8 text-center text-zinc-600 text-sm">
-        Proof of Progress — A commitment contract for indie hackers.
+        <p>Proof of Progress — A commitment contract for indie hackers.</p>
+        <a href="/terms" className="text-zinc-600 text-xs underline hover:text-zinc-400 transition mt-3 inline-block">
+          Terms of Service &amp; Legal Notice
+        </a>
       </footer>
     </main>
   );

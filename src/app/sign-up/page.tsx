@@ -28,7 +28,7 @@ export default function SignUp() {
 
   return (
     <main className="min-h-screen bg-black text-white flex flex-col items-center justify-center px-5 sm:px-8 py-10">
-      <div className="max-w-md w-full border border-zinc-800 p-6 sm:p-10 rounded">
+      <div className="max-w-md w-full border border-zinc-800 p-6 sm:p-8 rounded">
         <h1 className="text-2xl font-bold mb-6">Join Proof of Progress</h1>
         <form onSubmit={handleSignUp} className="space-y-4">
           <div>
