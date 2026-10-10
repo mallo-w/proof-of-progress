@@ -117,12 +117,34 @@ export default function Dashboard() {
           </button>
         </div>
 
-        {!commitment ? (
-          <div className="text-center py-20 border border-dashed border-zinc-800 rounded">
-            <p className="text-zinc-400 mb-6">No active commitment found.</p>
-            <a href="/create" className="bg-white text-black px-6 py-3 rounded font-bold hover:bg-zinc-200 transition">
-              Create your first commitment
+        {!commitment || commitment.status === 'completed' || commitment.status === 'failed' ? (
+          <div className="text-center py-20 border border-dashed border-zinc-800 rounded px-6">
+            <p className="text-2xl sm:text-3xl font-black mb-3 leading-tight">
+              {commitment?.status === 'completed'
+                ? 'Well done. Ready for your next challenge?'
+                : commitment?.status === 'failed'
+                ? 'You lost this one. Time to come back stronger.'
+                : 'No active commitment. Ready to commit?'}
+            </p>
+            {commitment && (
+              <p className="text-zinc-500 text-sm mb-8">
+                Last commitment: <span className="text-zinc-300">{commitment.title}</span> —{' '}
+                <span className={commitment.status === 'completed' ? 'text-green-500' : 'text-red-500'}>
+                  {commitment.status === 'completed' ? 'Completed' : 'Failed'}
+                </span>
+              </p>
+            )}
+            <a
+              href="/create"
+              className="inline-block bg-white text-black px-8 py-4 rounded font-black uppercase tracking-widest text-sm hover:bg-zinc-200 transition"
+            >
+              Start a New Commitment →
             </a>
+            <div className="mt-6">
+              <a href="/history" className="text-zinc-500 hover:text-white text-xs underline">
+                View your history →
+              </a>
+            </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
@@ -223,6 +245,12 @@ export default function Dashboard() {
             </div>
           </div>
         )}
+
+        <div className="mt-12 pt-6 border-t border-zinc-900 text-center">
+          <a href="/history" className="text-zinc-500 hover:text-white text-xs underline">
+            View history
+          </a>
+        </div>
       </div>
     </main>
   )
