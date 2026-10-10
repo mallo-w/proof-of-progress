@@ -20,6 +20,7 @@ export default function SubmitEvidence() {
         .select('*')
         .eq('user_id', user.id)
         .eq('status', 'active')
+        .gt('deadline', new Date().toISOString()) // no submission after the deadline
         .order('created_at', { ascending: false })
         .limit(1)
         .single()

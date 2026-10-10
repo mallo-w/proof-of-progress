@@ -3,12 +3,14 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/utils/supabase'
 import { useRouter } from 'next/navigation'
+import { effectiveStatus, isTerminal, VISIBLE_STATUSES } from '@/utils/status'
 
 const STATUS_STYLES: Record<string, string> = {
   active: 'border border-zinc-700 text-zinc-300 bg-zinc-900',
   submitted: 'border border-amber-800 text-amber-400 bg-amber-950/30',
   completed: 'border border-green-800 text-green-400 bg-green-950/30',
   failed: 'border border-red-800 text-red-400 bg-red-950/30',
+  expired: 'border border-red-900 text-red-500 bg-red-950/20',
 }
 
 function StatusBadge({ status }: { status: string }) {
@@ -48,18 +50,16 @@ export default function History() {
         .from('commitments')
         .select('*')
         .eq('user_id', user.id)
-        .in('status', ['active', 'submitted', 'completed', 'failed'])
+        .in('status', VISIBLE_STATUSES)
         .order('created_at', { ascending: false })
 
-      if (data) setCommitments(data)
+      if (data) setCommitments(data.map((c) => ({ ...c, status: effectiveStatus(c) })))
       setLoading(false)
     }
     fetchHistory()
   }, [router])
 
-  const hasActive = commitments.some(
-    (c) => c.status === 'active' || c.status === 'submitted',
-  )
+  const hasActive = commitments.some((c) => !isTerminal(c.status))
 
   if (loading) {
     return (
@@ -97,7 +97,10 @@ export default function History() {
                 <div className="min-w-0 space-y-2">
                   <h2 className="text-lg sm:text-xl font-bold break-words">{c.title}</h2>
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-zinc-500">
-                    <span>Due: {formatDeadline(c.deadline)}</span>
+                    <span>
+                      {c.status === 'expired' ? 'Expired: ' : 'Due: '}
+                      {formatDeadline(c.deadline)}
+                    </span>
                     <span className="text-zinc-300 font-semibold">€{c.stake_amount}</span>
                   </div>
                 </div>

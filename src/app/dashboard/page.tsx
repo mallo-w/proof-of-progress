@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/utils/supabase'
 import { useRouter } from 'next/navigation'
+import { effectiveStatus, isTerminal, VISIBLE_STATUSES } from '@/utils/status'
 
 function CountdownTimer({ deadline }: { deadline: string }) {
   const [timeLeft, setTimeLeft] = useState<{ days: number; hours: number; minutes: number; seconds: number } | null>(null)
@@ -86,13 +87,13 @@ export default function Dashboard() {
         .from('commitments')
         .select('*')
         .eq('user_id', user.id)
-        .in('status', ['active', 'submitted', 'completed', 'failed'])
+        .in('status', VISIBLE_STATUSES)
         .order('created_at', { ascending: false })
         .limit(1)
         .single()
 
       if (data) {
-        setCommitment(data)
+        setCommitment({ ...data, status: effectiveStatus(data) })
       }
       setLoading(false)
     }
@@ -117,20 +118,26 @@ export default function Dashboard() {
           </button>
         </div>
 
-        {!commitment || commitment.status === 'completed' || commitment.status === 'failed' ? (
+        {!commitment || isTerminal(commitment.status) ? (
           <div className="text-center py-20 border border-dashed border-zinc-800 rounded px-6">
             <p className="text-2xl sm:text-3xl font-black mb-3 leading-tight">
               {commitment?.status === 'completed'
                 ? 'Well done. Ready for your next challenge?'
                 : commitment?.status === 'failed'
                 ? 'You lost this one. Time to come back stronger.'
+                : commitment?.status === 'expired'
+                ? 'Deadline passed without proof. Stake forfeited.'
                 : 'No active commitment. Ready to commit?'}
             </p>
             {commitment && (
               <p className="text-zinc-500 text-sm mb-8">
                 Last commitment: <span className="text-zinc-300">{commitment.title}</span> —{' '}
                 <span className={commitment.status === 'completed' ? 'text-green-500' : 'text-red-500'}>
-                  {commitment.status === 'completed' ? 'Completed' : 'Failed'}
+                  {commitment.status === 'completed'
+                    ? 'Completed'
+                    : commitment.status === 'expired'
+                    ? 'Expired'
+                    : 'Failed'}
                 </span>
               </p>
             )}
