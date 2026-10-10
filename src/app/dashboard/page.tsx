@@ -69,17 +69,24 @@ export default function Dashboard() {
       }
       setUser(user)
 
-      // Check if arriving from a successful Stripe checkout
+      // If arriving from Stripe checkout, wait for the webhook to activate the commitment
+      // (never write status from the browser — server-side webhook handles it)
       const params = new URLSearchParams(window.location.search)
       const paymentStatus = params.get('payment')
       const commitmentId = params.get('commitment_id')
 
       if (paymentStatus === 'success' && commitmentId) {
-        await supabase
-          .from('commitments')
-          .update({ status: 'active' })
-          .eq('id', commitmentId)
-          .eq('user_id', user.id)
+        // Poll until webhook fires and sets status to 'active' (max 10 seconds)
+        for (let i = 0; i < 10; i++) {
+          await new Promise((r) => setTimeout(r, 1000))
+          const { data: check } = await supabase
+            .from('commitments')
+            .select('status')
+            .eq('id', commitmentId)
+            .eq('user_id', user.id)
+            .single()
+          if (check?.status === 'active') break
+        }
       }
 
       // Fetch the latest active or submitted commitment (ignore payment_pending)

@@ -22,6 +22,9 @@ export async function POST(request: Request) {
       managed_payments: {
         enabled: false,
       },
+      metadata: {
+        commitmentId,
+      },
       line_items: [
         {
           price_data: {
