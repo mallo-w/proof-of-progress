@@ -142,8 +142,14 @@ export default function CreateCommitment() {
               <input 
                 type="date" 
                 className="w-full bg-zinc-900 border border-zinc-800 rounded p-3 text-sm"
-                onChange={(e) => setFormData({...formData, deadline: e.target.value})}
+                onChange={(e) => {
+                  const v = e.target.value
+                  setFormData({...formData, deadline: v ? `${v}T23:59:59.000Z` : ''})
+                }}
               />
+              <p className="text-xs text-zinc-600 mt-1 italic">
+                Deadline = end of this day at 23:59:59 UTC. All deadlines are in UTC (Coordinated Universal Time).
+              </p>
             </div>
             <div>
               <label className="block text-sm text-zinc-500 mb-1">Evidence Required</label>
@@ -195,7 +201,11 @@ export default function CreateCommitment() {
               </div>
               <div>
                 <span className="text-zinc-500 uppercase text-[10px] block">Deadline</span>
-                <span>{formData.deadline || 'No date set'}</span>
+                <span>
+                  {formData.deadline
+                    ? new Date(formData.deadline).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) + ' — end of day (23:59:59 UTC)'
+                    : 'No date set'}
+                </span>
               </div>
               <div>
                 <span className="text-zinc-500 uppercase text-[10px] block">The Stake</span>
