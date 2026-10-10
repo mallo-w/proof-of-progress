@@ -69,7 +69,7 @@ export default function AdminReview() {
                   <span className="text-xl font-bold text-white whitespace-nowrap">€{c.stake_amount}</span>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs border-t border-b border-zinc-900 py-3 text-zinc-400">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs border-t border-zinc-900 pt-3 pb-2 text-zinc-400">
                   <div>
                     <span className="text-zinc-600 block uppercase font-bold">Criteria</span>
                     {c.binary_completion_criteria}
@@ -78,6 +78,22 @@ export default function AdminReview() {
                     <span className="text-zinc-600 block uppercase font-bold">Required Evidence</span>
                     {c.evidence_requirements}
                   </div>
+                </div>
+
+                <div className="text-xs pb-3 border-b border-zinc-900">
+                  <span className="text-zinc-600 block uppercase font-bold mb-1">Evidence Submitted</span>
+                  {c.evidence_url ? (
+                    <a
+                      href={c.evidence_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white underline underline-offset-2 hover:text-zinc-300 break-all"
+                    >
+                      {c.evidence_url} →
+                    </a>
+                  ) : (
+                    <span className="text-zinc-600 italic">No evidence submitted</span>
+                  )}
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2">

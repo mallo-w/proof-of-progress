@@ -35,10 +35,9 @@ export default function SubmitEvidence() {
     e.preventDefault()
     setLoading(true)
 
-    // Pour l'MVP, on met simplement à jour le statut
     const { error } = await supabase
       .from('commitments')
-      .update({ status: 'submitted' })
+      .update({ status: 'submitted', evidence_url: evidenceLink.trim() })
       .eq('id', commitment.id)
 
     if (error) alert(error.message)
