@@ -165,7 +165,7 @@ export default function Home() {
             Start your first commitment →
           </a>
           <p className="text-zinc-500 text-sm mt-5">
-            Beta — test mode, no real charge yet. Going live soon.
+            Real money. Real stakes. No excuses.
           </p>
         </div>
       </section>

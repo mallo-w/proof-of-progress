@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Terms of Service & Legal Notice",
   description:
-    "Terms of service and legal notice for Proof of Progress (beta).",
+    "Terms of service and legal notice for Proof of Progress.",
 };
 
 export default function Terms() {
@@ -15,7 +15,7 @@ export default function Terms() {
             Terms of Service &amp; Legal Notice
           </h1>
           <p className="text-zinc-500 text-sm">
-            Last updated for the Proof of Progress beta.
+            Please read these terms carefully before staking money.
           </p>
         </header>
 
@@ -25,11 +25,9 @@ export default function Terms() {
               1. Who we are
             </h2>
             <p>
-              Proof of Progress is a personal commitment tool built in beta by the
-              Proof of Progress team. It is currently an experimental product and
-              is <span className="text-white font-semibold">not yet a
-              registered legal entity</span>. Using the product means you
-              understand it is an early-stage beta.
+              Proof of Progress is a personal commitment tool built by the
+              Proof of Progress team. By using the product and staking money,
+              you agree to these terms.
             </p>
           </section>
 
@@ -38,12 +36,14 @@ export default function Terms() {
               2. What happens to your money
             </h2>
             <p>
-              Funds are collected through Stripe in{" "}
-              <span className="text-white font-semibold">sandbox (test) mode</span>{" "}
-              during the beta phase — no real payment is ever charged. When live
-              mode is enabled, the staked amount will be held for the duration of
-              your commitment and then either released back to you or forfeited,
-              depending on the verdict on your submitted proof.
+              Funds are collected and{" "}
+              <span className="text-white font-semibold">charged in real money</span>{" "}
+              through Stripe. When you lock a commitment, the staked amount is
+              charged to your payment method and held for the duration of your
+              commitment. Once the verdict is in: if your proof is approved, your
+              stake is released back to you; if your commitment fails, the staked
+              amount is{" "}
+              <span className="text-white font-semibold">kept by Proof of Progress</span>.
             </p>
           </section>
 
@@ -52,11 +52,12 @@ export default function Terms() {
               3. Refund policy
             </h2>
             <p>
-              During the beta, no real money is charged, so there is nothing to
-              refund. In live mode, once a commitment is locked there are{" "}
-              <span className="text-white font-semibold">no refunds</span>, except
-              in the case of a technical error on our side that prevented a fair
-              review of your proof.
+              Once a commitment is locked (committed and paid) there are{" "}
+              <span className="text-white font-semibold">no refunds</span>. The
+              only exception is a technical error on our side that prevented a
+              fair review of your proof — in which case your stake will be
+              returned. By locking a commitment you accept that a failed
+              commitment means your stake is forfeited.
             </p>
           </section>
 
@@ -65,8 +66,8 @@ export default function Terms() {
               4. Disclaimer
             </h2>
             <p>
-              This is a{" "}
-              <span className="text-white font-semibold">beta product</span> and
+              This is an{" "}
+              <span className="text-white font-semibold">early product</span> and
               may contain bugs. It is provided &ldquo;as is&rdquo;, without any
               warranty of availability, reliability, or fitness for a particular
               purpose. Use it at your own risk.
