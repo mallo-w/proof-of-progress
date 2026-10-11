@@ -112,7 +112,7 @@ export default function History() {
           </div>
         )}
 
-        {!hasActive && commitments.length > 0 && (
+        {commitments.length > 0 && (
           <div className="mt-12 pt-8 border-t border-zinc-900 text-center">
             <a
               href="/create"

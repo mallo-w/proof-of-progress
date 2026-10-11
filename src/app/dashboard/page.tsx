@@ -260,7 +260,7 @@ export default function Dashboard() {
           </div>
         )}
 
-        <div className="mt-12 pt-6 border-t border-zinc-900 text-center">
+        <div className="mt-12 pt-6 border-t border-zinc-900 text-center hidden">
           <a href="/history" className="text-zinc-500 hover:text-white text-xs underline">
             View history
           </a>
