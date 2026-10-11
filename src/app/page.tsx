@@ -49,12 +49,20 @@ export default function Home() {
         <span className="font-bold text-base sm:text-lg tracking-tight">
           Proof of Progress
         </span>
-        <a
-          href="/login"
-          className="text-zinc-400 hover:text-white text-xs sm:text-sm font-semibold transition whitespace-nowrap"
-        >
-          Login
-        </a>
+        <div className="flex items-center gap-3 sm:gap-4">
+          <a
+            href="/login"
+            className="text-zinc-400 hover:text-white text-xs sm:text-sm font-semibold transition whitespace-nowrap"
+          >
+            Login
+          </a>
+          <a
+            href="/sign-up"
+            className="bg-white text-black text-xs sm:text-sm font-medium px-4 py-2 rounded hover:bg-zinc-200 transition whitespace-nowrap"
+          >
+            Sign Up
+          </a>
+        </div>
       </nav>
 
       {/* SECTION 1 — Hero */}
@@ -69,7 +77,7 @@ export default function Home() {
           <br className="hidden sm:block" /> No excuses.
         </p>
         <a
-          href="/sign-up"
+          href="/get-started"
           className="block sm:inline-block w-full sm:w-auto bg-white text-black font-medium px-8 py-4 rounded text-base sm:text-lg hover:bg-zinc-200 transition"
         >
           Start a Commitment →

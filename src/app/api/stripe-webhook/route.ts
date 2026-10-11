@@ -73,30 +73,30 @@ export async function POST(request: Request) {
         if (email) {
           const resend = new Resend(process.env.RESEND_API_KEY)
           const deadline = updated.deadline
-            ? new Date(updated.deadline).toLocaleDateString('fr-FR', {
+            ? new Date(updated.deadline).toLocaleDateString('en-GB', {
                 day: 'numeric',
                 month: 'long',
                 year: 'numeric',
-              }) + ' — 23:59:59 UTC'
-            : 'Non définie'
+              }) + ' — 23:59:59 local time'
+            : 'Not set'
 
           await resend.emails.send({
             from: 'Proof of Progress <onboarding@resend.dev>',
             to: email,
-            subject: `Ton engagement est verrouillé — €${updated.stake_amount} en jeu`,
+            subject: `Your commitment is locked — €${updated.stake_amount} on the line`,
             html: `
               <div style="font-family: Arial, Helvetica, sans-serif; max-width: 560px; margin: 0 auto; color: #18181b;">
-                <h1 style="font-size: 22px; font-weight: 800; margin: 0 0 8px;">Engagement verrouillé.</h1>
+                <h1 style="font-size: 22px; font-weight: 800; margin: 0 0 8px;">Commitment locked.</h1>
                 <p style="font-size: 15px; color: #52525b; margin: 0 0 24px;">
-                  Il n'y a plus de retour en arrière. Livre ou perd.
+                  No turning back. Deliver or lose.
                 </p>
                 <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
                   <tr>
-                    <td style="padding: 8px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #a1a1aa;">Engagement</td>
+                    <td style="padding: 8px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #a1a1aa;">Commitment</td>
                     <td style="padding: 8px 0; font-size: 14px; font-weight: 700; text-align: right;">${updated.title}</td>
                   </tr>
                   <tr>
-                    <td style="padding: 8px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #a1a1aa;">En jeu</td>
+                    <td style="padding: 8px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #a1a1aa;">At Stake</td>
                     <td style="padding: 8px 0; font-size: 14px; font-weight: 700; text-align: right;">€${updated.stake_amount}</td>
                   </tr>
                   <tr>
@@ -105,20 +105,64 @@ export async function POST(request: Request) {
                   </tr>
                 </table>
                 <div style="background: #fafafa; border: 1px solid #e4e4e7; border-radius: 6px; padding: 16px; margin-bottom: 24px;">
-                  <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #a1a1aa; margin-bottom: 6px;">Critère de réussite</div>
+                  <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #a1a1aa; margin-bottom: 6px;">Success Criteria</div>
                   <div style="font-size: 14px; font-style: italic;">"${updated.binary_completion_criteria || ''}"</div>
                 </div>
                 <a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://proof-of-progress.vercel.app'}/submit"
                    style="display: inline-block; background: #18181b; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; padding: 14px 28px; border-radius: 6px;">
-                  Soumettre ma preuve →
+                  Submit my proof →
                 </a>
                 <p style="font-size: 14px; color: #52525b; margin: 24px 0 0;">
-                  L'argent est posé. Maintenant, tu n'as plus qu'une option : livrer. Au travail.
+                  The money is locked in. You now have one option: deliver. Get to work.
                 </p>
               </div>
             `,
           })
         }
+
+        // Notify admin about new paid commitment
+        const resend = new Resend(process.env.RESEND_API_KEY)
+        const userEmailForAdmin =
+          (await supabaseAdmin.auth.admin.getUserById(updated.user_id)).data?.user?.email || 'unknown'
+        const deadlineForAdmin = updated.deadline
+          ? new Date(updated.deadline).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+          : 'Not set'
+        await resend.emails.send({
+          from: 'Proof of Progress <onboarding@resend.dev>',
+          to: 'mallory@system-strategy.co',
+          subject: `New commitment — ${updated.title} — €${updated.stake_amount}`,
+          html: `
+            <div style="font-family: Arial, Helvetica, sans-serif; max-width: 560px; margin: 0 auto; color: #18181b;">
+              <h1 style="font-size: 20px; font-weight: 800; margin: 0 0 16px;">New commitment activated</h1>
+              <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                <tr>
+                  <td style="padding: 6px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #a1a1aa;">User</td>
+                  <td style="padding: 6px 0; font-size: 14px; text-align: right;">${userEmailForAdmin}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 6px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #a1a1aa;">Commitment</td>
+                  <td style="padding: 6px 0; font-size: 14px; font-weight: 700; text-align: right;">${updated.title}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 6px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #a1a1aa;">Stake</td>
+                  <td style="padding: 6px 0; font-size: 14px; font-weight: 700; text-align: right;">€${updated.stake_amount}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 6px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #a1a1aa;">Deadline</td>
+                  <td style="padding: 6px 0; font-size: 14px; text-align: right;">${deadlineForAdmin}</td>
+                </tr>
+              </table>
+              <div style="background: #fafafa; border: 1px solid #e4e4e7; border-radius: 6px; padding: 16px; margin-bottom: 24px;">
+                <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #a1a1aa; margin-bottom: 6px;">Criteria</div>
+                <div style="font-size: 14px; font-style: italic;">"${updated.binary_completion_criteria || ''}"</div>
+              </div>
+              <a href="https://proof-of-progress.vercel.app/admin/review"
+                 style="display: inline-block; background: #18181b; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; padding: 14px 28px; border-radius: 6px;">
+                View admin panel →
+              </a>
+            </div>
+          `,
+        })
       }
     } catch (emailErr) {
       console.error('Failed to send confirmation email:', emailErr)

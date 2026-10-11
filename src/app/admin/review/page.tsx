@@ -49,11 +49,11 @@ export default function AdminReview() {
         })
         if (!res.ok) {
           const result = await res.json().catch(() => ({}))
-          alert(`Remboursement échoué : ${result.error || 'erreur inconnue'}`)
+          alert(`Refund failed: ${result.error || 'unknown error'}`)
           return
         }
       } catch (err) {
-        alert(`Remboursement échoué : ${err instanceof Error ? err.message : 'erreur réseau'}`)
+        alert(`Refund failed: ${err instanceof Error ? err.message : 'network error'}`)
         return
       }
     }
@@ -75,7 +75,10 @@ export default function AdminReview() {
       <div className="max-w-4xl mx-auto space-y-8">
         <div className="flex justify-between items-center gap-3 border-b border-zinc-800 pb-6">
           <h1 className="text-xl font-bold tracking-tight">Admin Review Queue</h1>
-          <a href="/dashboard" className="text-zinc-500 hover:text-white text-xs underline">Back to Dashboard</a>
+          <div className="flex items-center gap-4 text-xs">
+            <a href="/admin" className="text-zinc-500 hover:text-white underline">Dashboard</a>
+            <a href="/dashboard" className="text-zinc-500 hover:text-white underline">Back to App</a>
+          </div>
         </div>
 
         {commitments.length === 0 ? (
@@ -125,7 +128,7 @@ export default function AdminReview() {
                   <div className="text-xs pb-3 border-b border-zinc-900">
                     <span className="text-zinc-600 block uppercase font-bold mb-1">Charity (if failed)</span>
                     <span className="text-zinc-300">
-                      En cas d&apos;échec : {c.charity_percentage}% → {c.charity_name}
+                      On failure: {c.charity_percentage}% → {c.charity_name}
                     </span>
                   </div>
                 )}

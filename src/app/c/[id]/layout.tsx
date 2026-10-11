@@ -28,7 +28,7 @@ export async function generateMetadata({
     // fall through to default
   }
 
-  return { title: 'Engagement public — Proof of Progress' }
+  return { title: 'Public Commitment — Proof of Progress' }
 }
 
 export default function PublicCommitmentLayout({ children }: { children: React.ReactNode }) {

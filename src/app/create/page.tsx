@@ -146,11 +146,16 @@ export default function CreateCommitment() {
                 className="w-full bg-zinc-900 border border-zinc-800 rounded p-3 text-sm"
                 onChange={(e) => {
                   const v = e.target.value
-                  setFormData({...formData, deadline: v ? `${v}T23:59:59.000Z` : ''})
+                  if (v) {
+                    const localEOD = new Date(v + 'T23:59:59')
+                    setFormData({...formData, deadline: localEOD.toISOString()})
+                  } else {
+                    setFormData({...formData, deadline: ''})
+                  }
                 }}
               />
               <p className="text-xs text-zinc-600 mt-1 italic">
-                Deadline = end of this day at 23:59:59 UTC. All deadlines are in UTC (Coordinated Universal Time).
+                Deadline = end of this day at 23:59:59 in your local timezone.
               </p>
             </div>
             <div>
@@ -186,7 +191,7 @@ export default function CreateCommitment() {
               ))}
             </div>
             <div>
-              <label className="block text-sm text-zinc-500 mb-1">Ou entre un montant personnalisé (min. €25)</label>
+              <label className="block text-sm text-zinc-500 mb-1">Or enter a custom amount (min. €25)</label>
               <input
                 type="number"
                 min={25}
@@ -198,11 +203,11 @@ export default function CreateCommitment() {
             </div>
             {formData.stake_amount < 25 && (
               <p className="text-xs text-red-500 leading-relaxed">
-                ⚠️ En dessous de 25 €, l&apos;enjeu est trop faible pour avoir un vrai poids psychologique. Le but est que ça fasse mal de perdre.
+                ⚠️ Below €25, the stake is too low to create real psychological pressure. The point is that losing should hurt.
               </p>
             )}
             <p className="text-[11px] text-zinc-500 italic leading-relaxed">
-              Les recherches en économie comportementale (Kahneman, Yale/stickK) recommandent 1–5 % de ton revenu disponible mensuel. Assez pour piquer, pas assez pour paralyser.
+              Behavioral economics research (Kahneman, Yale/stickK) recommends 1–5% of your monthly disposable income. Enough to sting, not enough to paralyze.
             </p>
             <div className="flex gap-4">
               <button onClick={handleBack} className="flex-1 border border-zinc-800 py-3 rounded font-bold">Back</button>
@@ -220,25 +225,25 @@ export default function CreateCommitment() {
         {/* STEP 4: CHARITY & CAUSE */}
         {step === 4 && (
           <div className="space-y-6">
-            <h2 className="text-xl font-bold">En cas d&apos;échec, où va l&apos;argent ?</h2>
+            <h2 className="text-xl font-bold">If you fail, where does the money go?</h2>
             <p className="text-zinc-500 text-sm leading-relaxed">
-              Si tu ne livres pas, ton argent est perdu. Tu peux choisir qu&apos;il parte vers une cause ou une organisation — idéalement une que tu détestes. C&apos;est optionnel, mais ça décuple la motivation.
+              If you don&apos;t deliver, your money is lost. You can choose where it goes — ideally somewhere you hate. Optional, but it multiplies the motivation.
             </p>
             <div className="bg-zinc-950 border border-amber-900 text-amber-500 rounded p-4 text-xs leading-relaxed">
-              L&apos;idée n&apos;est pas de faire une bonne action. L&apos;idée est que l&apos;argent aille quelque part qui te dérange, pour que l&apos;échec soit insupportable. Choisis une organisation que tu n&apos;as aucune envie de financer.
+              This isn&apos;t about charity. The idea is that your money goes somewhere that bothers you — so that failing becomes unbearable. Choose an organization you have no interest in funding.
             </div>
             <div>
-              <label className="block text-sm text-zinc-500 mb-1">Nom de l&apos;organisation</label>
+              <label className="block text-sm text-zinc-500 mb-1">Organization name</label>
               <input
                 type="text"
-                placeholder="ex: Parti X, Association Y..."
+                placeholder="e.g. Party X, Organization Y..."
                 className="w-full bg-zinc-900 border border-zinc-800 rounded p-3 text-sm"
                 value={formData.charity_name}
                 onChange={(e) => setFormData({...formData, charity_name: e.target.value})}
               />
             </div>
             <div>
-              <label className="block text-sm text-zinc-500 mb-2">Pourcentage de l&apos;enjeu</label>
+              <label className="block text-sm text-zinc-500 mb-2">Percentage of stake</label>
               <div className="grid grid-cols-3 gap-3">
                 {[25, 33, 50].map((pct) => (
                   <button
@@ -252,7 +257,7 @@ export default function CreateCommitment() {
               </div>
             </div>
             <p className="text-[11px] text-zinc-600 italic leading-relaxed">
-              Je t&apos;enverrai une invoice une fois la somme envoyée à l&apos;organisation.
+              You&apos;ll receive an invoice once the amount is sent to the organization.
             </p>
             <div className="flex gap-4">
               <button onClick={handleBack} className="flex-1 border border-zinc-800 py-3 rounded font-bold">Back</button>
@@ -260,9 +265,9 @@ export default function CreateCommitment() {
                 onClick={() => { setFormData({...formData, charity_name: '', charity_percentage: 25}); handleNext() }}
                 className="flex-1 border border-zinc-800 py-3 rounded font-bold text-zinc-400"
               >
-                Passer
+                Skip
               </button>
-              <button onClick={handleNext} className="flex-1 bg-white text-black py-3 rounded font-bold">Suivant</button>
+              <button onClick={handleNext} className="flex-1 bg-white text-black py-3 rounded font-bold">Next</button>
             </div>
           </div>
         )}
@@ -280,7 +285,7 @@ export default function CreateCommitment() {
                 <span className="text-zinc-500 uppercase text-[10px] block">Deadline</span>
                 <span>
                   {formData.deadline
-                    ? new Date(formData.deadline).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) + ' — end of day (23:59:59 UTC)'
+                    ? new Date(formData.deadline).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) + ' — end of day (23:59:59 local time)'
                     : 'No date set'}
                 </span>
               </div>
@@ -290,7 +295,7 @@ export default function CreateCommitment() {
               </div>
               {formData.charity_name && (
                 <div>
-                  <span className="text-zinc-500 uppercase text-[10px] block">En cas d&apos;échec</span>
+                  <span className="text-zinc-500 uppercase text-[10px] block">If failed</span>
                   <span className="text-white">{formData.charity_percentage}% → {formData.charity_name}</span>
                 </div>
               )}

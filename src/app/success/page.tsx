@@ -6,8 +6,8 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { Suspense } from 'react'
 
 function formatDeadline(deadline: string | null): string {
-  if (!deadline) return 'Non définie'
-  return new Date(deadline).toLocaleDateString('fr-FR', {
+  if (!deadline) return 'Not set'
+  return new Date(deadline).toLocaleDateString('en-GB', {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
@@ -78,9 +78,9 @@ function SuccessContent() {
         <div className="text-center">
           <div className="text-4xl sm:text-5xl mb-6">🔒</div>
           <h1 className="text-xl sm:text-2xl font-bold tracking-tight">
-            Verrouillage de ton engagement<span className="inline-block w-8 text-left">{dots}</span>
+            Locking your commitment<span className="inline-block w-8 text-left">{dots}</span>
           </h1>
-          <p className="text-zinc-500 text-sm mt-3">On confirme ton paiement. Reste ici quelques secondes.</p>
+          <p className="text-zinc-500 text-sm mt-3">Confirming your payment. Stay here for a few seconds.</p>
         </div>
       </main>
     )
@@ -91,16 +91,16 @@ function SuccessContent() {
       <div className="max-w-lg w-full text-center space-y-8">
         <div>
           <h1 className="text-3xl sm:text-4xl font-black leading-tight">
-            Engagement verrouillé. Ton argent est en jeu.
+            Commitment locked. Your money is on the line.
           </h1>
           <p className="text-zinc-400 text-base sm:text-lg mt-4">
-            Il n&apos;y a plus de retour en arrière. Livre ou perd.
+            No turning back. Deliver or lose.
           </p>
         </div>
 
         <div className="flex justify-center">
           <span className="bg-white text-black text-lg sm:text-xl font-black px-6 py-3 rounded uppercase tracking-widest">
-            €{commitment?.stake_amount ?? '—'} EN JEU
+            €{commitment?.stake_amount ?? '—'} ON THE LINE
           </span>
         </div>
 
@@ -118,14 +118,14 @@ function SuccessContent() {
             href="/dashboard"
             className="block w-full bg-white text-black py-4 rounded font-black uppercase tracking-widest text-sm hover:bg-zinc-200 transition"
           >
-            Voir mon engagement →
+            View my commitment →
           </a>
           {commitmentId && (
             <a
               href={`/c/${commitmentId}`}
               className="block text-zinc-500 hover:text-white text-sm underline underline-offset-2 transition"
             >
-              Partager mon engagement →
+              Share my commitment →
             </a>
           )}
         </div>
@@ -139,7 +139,7 @@ export default function SuccessPage() {
     <Suspense
       fallback={
         <main className="min-h-screen bg-transparent text-white flex items-center justify-center">
-          <p className="text-zinc-500 text-sm">Chargement...</p>
+          <p className="text-zinc-500 text-sm">Loading...</p>
         </main>
       }
     >

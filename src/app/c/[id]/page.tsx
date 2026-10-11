@@ -10,11 +10,11 @@ function effectiveStatus(c: { status: string; deadline: string | null }): string
 }
 
 const STATUS_LABELS: Record<string, string> = {
-  active: 'Actif',
-  submitted: 'En revue',
-  completed: 'Réussi',
-  failed: 'Échoué',
-  expired: 'Expiré',
+  active: 'Active',
+  submitted: 'Under Review',
+  completed: 'Completed',
+  failed: 'Failed',
+  expired: 'Expired',
 }
 
 function statusBadgeClasses(status: string): string {
@@ -33,8 +33,8 @@ function statusBadgeClasses(status: string): string {
 }
 
 function formatDeadline(deadline: string | null): string {
-  if (!deadline) return 'Non définie'
-  return new Date(deadline).toLocaleDateString('fr-FR', {
+  if (!deadline) return 'Not set'
+  return new Date(deadline).toLocaleDateString('en-GB', {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
@@ -63,13 +63,13 @@ export default async function PublicCommitmentPage({
     return (
       <main className="min-h-screen bg-transparent text-white flex flex-col items-center justify-center px-5 sm:px-8">
         <div className="text-center">
-          <h1 className="text-2xl sm:text-3xl font-black mb-3">Engagement introuvable</h1>
-          <p className="text-zinc-500 text-sm mb-8">Ce lien ne correspond à aucun engagement.</p>
+          <h1 className="text-2xl sm:text-3xl font-black mb-3">Commitment not found</h1>
+          <p className="text-zinc-500 text-sm mb-8">This link doesn't match any commitment.</p>
           <a
             href="/"
             className="inline-block bg-white text-black px-8 py-4 rounded font-black uppercase tracking-widest text-sm hover:bg-zinc-200 transition"
           >
-            Découvrir Proof of Progress →
+            Discover Proof of Progress →
           </a>
         </div>
       </main>
@@ -83,7 +83,7 @@ export default async function PublicCommitmentPage({
       <div className="max-w-lg w-full space-y-8">
         <div className="text-center">
           <span className="text-zinc-500 uppercase text-[10px] tracking-widest font-semibold">
-            Commitment public
+            Public Commitment
           </span>
         </div>
 
@@ -104,7 +104,7 @@ export default async function PublicCommitmentPage({
           <div className="grid grid-cols-2 gap-6 py-6 border-t border-b border-zinc-800 text-center">
             <div>
               <span className="text-zinc-500 uppercase text-[10px] tracking-widest block mb-2 font-semibold">
-                En jeu
+                At Stake
               </span>
               <div className="text-2xl sm:text-3xl font-black">€{commitment.stake_amount}</div>
             </div>
@@ -119,7 +119,7 @@ export default async function PublicCommitmentPage({
 
           <div>
             <span className="text-zinc-500 uppercase text-[10px] tracking-widest block mb-2 font-semibold">
-              Critère de réussite
+              Success Criteria
             </span>
             <p className="text-sm text-zinc-300 leading-relaxed italic">
               &quot;{commitment.binary_completion_criteria}&quot;
@@ -129,13 +129,13 @@ export default async function PublicCommitmentPage({
 
         <div className="text-center border border-dashed border-zinc-800 rounded p-6">
           <p className="text-sm text-zinc-400 mb-4">
-            Cette personne s&apos;est engagée publiquement. Toi aussi →
+            This person committed publicly. You can too →
           </p>
           <a
             href="/"
             className="inline-block bg-white text-black px-8 py-4 rounded font-black uppercase tracking-widest text-sm hover:bg-zinc-200 transition"
           >
-            Prendre mon engagement →
+            Start my commitment →
           </a>
         </div>
       </div>
