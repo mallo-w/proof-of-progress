@@ -20,7 +20,7 @@ const STEPS = [
   {
     num: "03",
     title: "Deliver",
-    body: "Submit your proof before the deadline — or lose your stake. No excuses, no extensions.",
+    body: "Submit your proof before the deadline. No excuses, no extensions.",
   },
 ];
 
@@ -58,19 +58,19 @@ export default function Home() {
       </nav>
 
       {/* SECTION 1 — Hero */}
-      <section className="max-w-3xl mx-auto px-5 sm:px-8 pt-20 sm:pt-32 pb-16 sm:pb-24 text-center">
-        <h1 className="text-4xl sm:text-6xl font-black leading-[1.05] tracking-tight mb-6">
+      <section className="max-w-3xl mx-auto px-5 sm:px-8 pt-20 sm:pt-32 pb-16 sm:pb-24">
+        <h1 className="text-4xl sm:text-6xl font-bold leading-[1.05] tracking-tight mb-6">
           Commit.
           <br />
           Or lose your money.
         </h1>
-        <p className="text-zinc-400 text-lg sm:text-xl mb-10 leading-relaxed max-w-xl mx-auto">
-          Set a goal. Stake real money. Deliver proof — or forfeit.
+        <p className="text-zinc-400 text-lg sm:text-xl mb-10 leading-relaxed max-w-xl">
+          Set a goal. Stake real money. Deliver proof. Or forfeit.
           <br className="hidden sm:block" /> No excuses.
         </p>
         <a
           href="/sign-up"
-          className="block sm:inline-block w-full sm:w-auto bg-white text-black font-bold px-8 py-4 rounded text-base sm:text-lg hover:bg-zinc-200 transition"
+          className="inline-block bg-white text-black font-medium px-8 py-4 rounded text-base sm:text-lg hover:bg-zinc-200 transition"
         >
           Start a Commitment →
         </a>
@@ -90,7 +90,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 sm:gap-8">
           {STEPS.map((step) => (
             <div key={step.num}>
-              <div className="text-zinc-600 text-3xl sm:text-4xl font-black mb-4 tracking-tight">
+              <div className="text-zinc-600 text-3xl sm:text-4xl font-light mb-4 tracking-tight">
                 {step.num}
               </div>
               <h3 className="font-bold text-xl mb-3">{step.title}</h3>
@@ -116,7 +116,7 @@ export default function Home() {
           <p>
             A to-do list has no teeth. A streak breaks and nobody notices. But
             <strong>put real money on the line and your brain treats the deadline like a
-            threat</strong>—because it is. Suddenly &ldquo;later&rdquo; stops being an
+            threat.</strong> Because it is. Suddenly &ldquo;later&rdquo; stops being an
             option.
           </p>
           <p className="text-zinc-300">
@@ -155,12 +155,12 @@ export default function Home() {
       {/* SECTION 5 — Final CTA */}
       <section className="border-t border-zinc-800 bg-zinc-950">
         <div className="max-w-2xl mx-auto px-5 sm:px-8 py-20 sm:py-28 text-center">
-          <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-8">
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-8">
             Ready to stop procrastinating?
           </h2>
           <a
             href="/sign-up"
-            className="block sm:inline-block w-full sm:w-auto bg-white text-black font-bold px-8 py-4 rounded text-base sm:text-lg hover:bg-zinc-200 transition"
+            className="inline-block bg-white text-black font-medium px-8 py-4 rounded text-base sm:text-lg hover:bg-zinc-200 transition"
           >
             Start your first commitment →
           </a>
