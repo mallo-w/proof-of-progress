@@ -77,6 +77,17 @@ export default function History() {
           </a>
         </div>
 
+        {commitments.length > 0 && (
+          <div className="mb-8 text-center">
+            <a
+              href="/create"
+              className="inline-block bg-white text-black px-8 py-4 rounded font-black uppercase tracking-widest text-sm hover:bg-zinc-200 transition"
+            >
+              Start a New Commitment →
+            </a>
+          </div>
+        )}
+
         {commitments.length === 0 ? (
           <div className="text-center py-20 border border-dashed border-zinc-800 rounded px-6">
             <p className="text-zinc-400 mb-8">No commitments yet.</p>

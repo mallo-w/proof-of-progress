@@ -15,7 +15,7 @@ const STEPS = [
   {
     num: "02",
     title: "Stake",
-    body: "Lock in €25, €50, or €100. Your money is held until the deadline passes.",
+    body: "Lock in €25, €50, €100 or more. Your money is held until the deadline passes.",
   },
   {
     num: "03",
@@ -115,8 +115,8 @@ export default function Home() {
           </p>
           <p>
             A to-do list has no teeth. A streak breaks and nobody notices. But
-            put real money on the line and your brain treats the deadline like a
-            threat—because it is. Suddenly &ldquo;later&rdquo; stops being an
+            <strong>put real money on the line and your brain treats the deadline like a
+            threat</strong>—because it is. Suddenly &ldquo;later&rdquo; stops being an
             option.
           </p>
           <p className="text-zinc-300">
