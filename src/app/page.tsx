@@ -58,19 +58,19 @@ export default function Home() {
       </nav>
 
       {/* SECTION 1 — Hero */}
-      <section className="max-w-3xl mx-auto px-5 sm:px-8 pt-20 sm:pt-32 pb-16 sm:pb-24">
+      <section className="max-w-3xl mx-auto px-5 sm:px-8 pt-20 sm:pt-32 pb-16 sm:pb-24 text-center">
         <h1 className="text-4xl sm:text-6xl font-bold leading-[1.05] tracking-tight mb-6">
           Commit.
           <br />
           Or lose your money.
         </h1>
-        <p className="text-zinc-400 text-lg sm:text-xl mb-10 leading-relaxed max-w-xl">
+        <p className="text-zinc-400 text-lg sm:text-xl mb-10 leading-relaxed max-w-xl mx-auto">
           Set a goal. Stake real money. Deliver proof. Or forfeit.
           <br className="hidden sm:block" /> No excuses.
         </p>
         <a
           href="/sign-up"
-          className="inline-block bg-white text-black font-medium px-8 py-4 rounded text-base sm:text-lg hover:bg-zinc-200 transition"
+          className="block sm:inline-block w-full sm:w-auto bg-white text-black font-medium px-8 py-4 rounded text-base sm:text-lg hover:bg-zinc-200 transition"
         >
           Start a Commitment →
         </a>
