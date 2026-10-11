@@ -33,6 +33,31 @@ export default function AdminReview() {
   }, [router])
 
   const handleVerdict = async (id: string, status: 'completed' | 'failed') => {
+    const target = commitments.find((c) => c.id === id)
+
+    // On success, refund the stake via Stripe BEFORE updating the DB
+    if (status === 'completed' && target?.payment_intent_id) {
+      try {
+        const { data: { session } } = await supabase.auth.getSession()
+        const res = await fetch('/api/refund', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${session?.access_token ?? ''}`,
+          },
+          body: JSON.stringify({ paymentIntentId: target.payment_intent_id }),
+        })
+        if (!res.ok) {
+          const result = await res.json().catch(() => ({}))
+          alert(`Remboursement échoué : ${result.error || 'erreur inconnue'}`)
+          return
+        }
+      } catch (err) {
+        alert(`Remboursement échoué : ${err instanceof Error ? err.message : 'erreur réseau'}`)
+        return
+      }
+    }
+
     const { error } = await supabase
       .from('commitments')
       .update({ status })
@@ -43,10 +68,10 @@ export default function AdminReview() {
     }
   }
 
-  if (loading) return <div className="bg-black min-h-screen text-white p-8 font-mono">Loading review queue...</div>
+  if (loading) return <div className="bg-transparent min-h-screen text-white p-8 font-mono">Loading review queue...</div>
 
   return (
-    <main className="min-h-screen bg-black text-white p-5 sm:p-8 md:p-20">
+    <main className="min-h-screen bg-transparent text-white p-5 sm:p-8 md:p-20">
       <div className="max-w-4xl mx-auto space-y-8">
         <div className="flex justify-between items-center gap-3 border-b border-zinc-800 pb-6">
           <h1 className="text-xl font-bold tracking-tight">Admin Review Queue</h1>
@@ -95,6 +120,15 @@ export default function AdminReview() {
                     <span className="text-zinc-600 italic">No evidence submitted</span>
                   )}
                 </div>
+
+                {c.charity_name && (
+                  <div className="text-xs pb-3 border-b border-zinc-900">
+                    <span className="text-zinc-600 block uppercase font-bold mb-1">Charity (if failed)</span>
+                    <span className="text-zinc-300">
+                      En cas d&apos;échec : {c.charity_percentage}% → {c.charity_name}
+                    </span>
+                  </div>
+                )}
 
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2">
                   <button

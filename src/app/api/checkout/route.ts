@@ -39,7 +39,7 @@ export async function POST(request: Request) {
         },
       ],
       mode: 'payment',
-      success_url: `${origin}/dashboard?payment=success&commitment_id=${commitmentId}`,
+      success_url: `${origin}/success?commitment_id=${commitmentId}`,
       cancel_url: `${origin}/create?payment=cancelled`,
     })
 

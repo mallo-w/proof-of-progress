@@ -40,15 +40,24 @@ export default function SubmitEvidence() {
       .update({ status: 'submitted', evidence_url: evidenceLink.trim() })
       .eq('id', commitment.id)
 
-    if (error) alert(error.message)
-    else router.push('/dashboard')
+    if (error) {
+      alert(error.message)
+    } else {
+      // Fire-and-forget: notify the admin that a new proof is awaiting review
+      fetch('/api/notify-admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ commitmentId: commitment.id }),
+      }).catch(() => {})
+      router.push('/dashboard')
+    }
     setLoading(false)
   }
 
-  if (!commitment) return <div className="bg-black min-h-screen text-white p-8">Loading...</div>
+  if (!commitment) return <div className="bg-transparent min-h-screen text-white p-8">Loading...</div>
 
   return (
-    <main className="min-h-screen bg-black text-white p-5 sm:p-8 flex flex-col items-center justify-center">
+    <main className="min-h-screen bg-transparent text-white p-5 sm:p-8 flex flex-col items-center justify-center">
       <div className="max-w-md w-full border border-zinc-800 p-6 sm:p-8 rounded">
         <h1 className="text-2xl font-bold mb-2">Submit Proof of Progress</h1>
         <p className="text-zinc-500 text-sm mb-8">

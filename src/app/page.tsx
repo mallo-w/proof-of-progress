@@ -43,7 +43,7 @@ const TESTIMONIALS = [
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen bg-transparent text-white">
       {/* Navigation */}
       <nav className="border-b border-zinc-800 px-5 sm:px-8 py-4 sm:py-5 flex justify-between items-center gap-3">
         <span className="font-bold text-base sm:text-lg tracking-tight">

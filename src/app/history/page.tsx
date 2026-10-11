@@ -63,12 +63,12 @@ export default function History() {
 
   if (loading) {
     return (
-      <div className="bg-black min-h-screen text-white p-8 font-mono">Loading history...</div>
+      <div className="bg-transparent min-h-screen text-white p-8 font-mono">Loading history...</div>
     )
   }
 
   return (
-    <main className="min-h-screen bg-black text-white p-5 sm:p-8 md:p-20">
+    <main className="min-h-screen bg-transparent text-white p-5 sm:p-8 md:p-20">
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center gap-3 mb-8 sm:mb-12 border-b border-zinc-800 pb-6">
           <h1 className="text-xl sm:text-2xl font-bold tracking-tight">Your Commitment History</h1>

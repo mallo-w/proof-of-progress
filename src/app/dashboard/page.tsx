@@ -69,26 +69,6 @@ export default function Dashboard() {
       }
       setUser(user)
 
-      // If arriving from Stripe checkout, wait for the webhook to activate the commitment
-      // (never write status from the browser — server-side webhook handles it)
-      const params = new URLSearchParams(window.location.search)
-      const paymentStatus = params.get('payment')
-      const commitmentId = params.get('commitment_id')
-
-      if (paymentStatus === 'success' && commitmentId) {
-        // Poll until webhook fires and sets status to 'active' (max 10 seconds)
-        for (let i = 0; i < 10; i++) {
-          await new Promise((r) => setTimeout(r, 1000))
-          const { data: check } = await supabase
-            .from('commitments')
-            .select('status')
-            .eq('id', commitmentId)
-            .eq('user_id', user.id)
-            .single()
-          if (check?.status === 'active') break
-        }
-      }
-
       // Fetch the latest active or submitted commitment (ignore payment_pending)
       const { data } = await supabase
         .from('commitments')
@@ -107,10 +87,10 @@ export default function Dashboard() {
     fetchData()
   }, [router])
 
-  if (loading) return <div className="bg-black min-h-screen text-white p-8 font-mono">Loading contract...</div>
+  if (loading) return <div className="bg-transparent min-h-screen text-white p-8 font-mono">Loading contract...</div>
 
   return (
-    <main className="min-h-screen bg-black text-white p-5 sm:p-8 md:p-20">
+    <main className="min-h-screen bg-transparent text-white p-5 sm:p-8 md:p-20">
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center gap-3 mb-8 sm:mb-12 border-b border-zinc-800 pb-6">
           <div>
