@@ -122,9 +122,8 @@ export default function Home() {
             asymmetry is exactly why this works.
           </p>
           <p>
-            A to-do list has no teeth. A streak breaks and nobody notices. But
-            <strong>put real money on the line and your brain treats the deadline like a
-            threat.</strong> Because it is. Suddenly &ldquo;later&rdquo; stops being an
+          A to-do list has no teeth. A streak breaks and nobody notices.{' '}
+          <strong className="text-white font-bold">But put real money on the line and your brain treats the deadline like a threat.</strong>{' '}Because it is. Suddenly &ldquo;later&rdquo; stops being an
             option.
           </p>
           <p className="text-zinc-300">
