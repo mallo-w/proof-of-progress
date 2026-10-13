@@ -242,7 +242,7 @@ export default function Dashboard() {
 
               <div>
                 <span className="text-zinc-500 uppercase text-[10px] tracking-widest block mb-1 font-semibold text-center">Stake at Risk</span>
-                <div className="text-3xl font-black text-center">€{commitment.stake_amount}</div>
+                <div className="text-3xl font-black text-center">${commitment.stake_amount}</div>
               </div>
 
               <div className="pt-4 border-t border-zinc-900">

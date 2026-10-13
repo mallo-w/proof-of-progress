@@ -112,7 +112,7 @@ export default function History() {
                       {c.status === 'expired' ? 'Expired: ' : 'Due: '}
                       {formatDeadline(c.deadline)}
                     </span>
-                    <span className="text-zinc-300 font-semibold">€{c.stake_amount}</span>
+                    <span className="text-zinc-300 font-semibold">${c.stake_amount}</span>
                   </div>
                 </div>
                 <div className="shrink-0">

@@ -20,7 +20,7 @@ export default function CreateCommitment() {
     evidence_requirements: '',
     review_method: 'self',
     referee_email: '',
-    stake_amount: 50,
+    stake_amount: 30,
     charity_name: '',
     charity_percentage: 0,
   })
@@ -178,42 +178,29 @@ export default function CreateCommitment() {
         {step === 3 && (
           <div className="space-y-6">
             <h2 className="text-xl font-bold">Choose your stake</h2>
-            <p className="text-zinc-500 text-sm">Select an amount to risk. If you fail, this amount is lost.</p>
-            <div className="grid grid-cols-3 gap-3">
-              {[25, 50, 100].map((amt) => (
-                <button 
-                  key={amt}
-                  onClick={() => setFormData({...formData, stake_amount: amt})}
-                  className={`py-4 rounded font-bold border ${formData.stake_amount === amt ? 'border-white bg-white text-black' : 'border-zinc-800'}`}
-                >
-                  €{amt}
-                </button>
-              ))}
-            </div>
             <div>
-              <label className="block text-sm text-zinc-500 mb-1">Or enter a custom amount (min. €25)</label>
               <input
                 type="number"
-                min={25}
-                placeholder="ex: 75"
+                min={30}
+                placeholder="e.g. 75"
                 className="w-full bg-zinc-900 border border-zinc-800 rounded p-3 text-sm"
                 value={formData.stake_amount}
                 onChange={(e) => setFormData({...formData, stake_amount: Number(e.target.value)})}
               />
             </div>
-            {formData.stake_amount < 25 && (
+            {formData.stake_amount < 30 && (
               <p className="text-xs text-red-500 leading-relaxed">
-                ⚠️ Below €25, the stake is too low to create real psychological pressure. The point is that losing should hurt.
+                ⚠️ Below $30, the stake is too low to create real psychological pressure. The point is that losing should hurt.
               </p>
             )}
-            <p className="text-[11px] text-zinc-500 italic leading-relaxed">
+            <p className="text-[11px] text-amber-500 italic leading-relaxed">
               Behavioral economics research (Kahneman, Yale/stickK) recommends 1–5% of your monthly disposable income. Enough to sting, not enough to paralyze.
             </p>
             <div className="flex gap-4">
               <button onClick={handleBack} className="flex-1 border border-zinc-800 py-3 rounded font-bold">Back</button>
               <button
                 onClick={handleNext}
-                disabled={formData.stake_amount < 25}
+                disabled={formData.stake_amount < 30}
                 className="flex-1 bg-white text-black py-3 rounded font-bold disabled:opacity-40"
               >
                 Next
@@ -291,7 +278,7 @@ export default function CreateCommitment() {
               </div>
               <div>
                 <span className="text-zinc-500 uppercase text-[10px] block">The Stake</span>
-                <span className="text-white font-bold">€{formData.stake_amount}</span>
+                <span className="text-white font-bold">${formData.stake_amount}</span>
               </div>
               {formData.charity_name && (
                 <div>

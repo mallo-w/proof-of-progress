@@ -100,7 +100,7 @@ function SuccessContent() {
 
         <div className="flex justify-center">
           <span className="bg-white text-black text-lg sm:text-xl font-black px-6 py-3 rounded uppercase tracking-widest">
-            €{commitment?.stake_amount ?? '—'} ON THE LINE
+            ${commitment?.stake_amount ?? '—'} ON THE LINE
           </span>
         </div>
 

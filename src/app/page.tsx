@@ -6,7 +6,7 @@ export const metadata: Metadata = {
     "Set a goal. Stake real money. Deliver proof — or forfeit. A commitment contract for indie hackers, solopreneurs, and creators.",
 };
 
-const STEPS = [
+const STEPS: { num: string; title: string; body: string; highlight?: string }[] = [
   {
     num: "01",
     title: "Commit",
@@ -15,28 +15,34 @@ const STEPS = [
   {
     num: "02",
     title: "Stake",
-    body: "Lock in €25, €50, €100 or more. Your money is held until the deadline passes.",
+    body: "Lock in a sum of your choice. Your money is held until the deadline passes.",
   },
   {
     num: "03",
     title: "Deliver",
     body: "Submit your proof before the deadline. No excuses, no extensions.",
   },
+  {
+    num: "04",
+    title: "Recover",
+    body: "Recover your money if you deliver proof on time. ",
+    highlight: "Or it's transferred to an organization that is the polar opposite of everything you stand for.",
+  },
 ];
 
 const TESTIMONIALS = [
   {
-    quote: "Shipped my SaaS MVP in 14 days. €100 on the line.",
+    quote: "Shipped my SaaS MVP in 14 days. $100 on the line.",
     author: "@indie_maker",
   },
   {
     quote:
-      "Finally launched my newsletter after 3 months of procrastinating. €50 well risked.",
+      "Finally launched my newsletter after 3 months of procrastinating. $50 well risked.",
     author: "@creator_x",
   },
   {
     quote:
-      "The fear of losing €100 to someone else was stronger than any productivity app.",
+      "The fear of losing $100 to someone else was stronger than any productivity app.",
     author: "@solofounder",
   },
 ];
@@ -95,7 +101,7 @@ export default function Home() {
         <h2 className="text-2xl sm:text-3xl font-bold mb-12 sm:mb-16 text-center tracking-tight">
           How it works
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 sm:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 sm:gap-8">
           {STEPS.map((step) => (
             <div key={step.num}>
               <div className="text-zinc-600 text-3xl sm:text-4xl font-light mb-4 tracking-tight">
@@ -104,6 +110,9 @@ export default function Home() {
               <h3 className="font-bold text-xl mb-3">{step.title}</h3>
               <p className="text-zinc-400 text-sm sm:text-base leading-relaxed">
                 {step.body}
+                {step.highlight && (
+                  <span className="text-amber-500">{step.highlight}</span>
+                )}
               </p>
             </div>
           ))}
