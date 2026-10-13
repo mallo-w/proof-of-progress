@@ -58,6 +58,11 @@ export default function Dashboard() {
   const [user, setUser] = useState<any>(null)
   const [commitment, setCommitment] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  const [showChangePw, setShowChangePw] = useState(false)
+  const [newPw, setNewPw] = useState('')
+  const [confirmPw, setConfirmPw] = useState('')
+  const [pwMsg, setPwMsg] = useState('')
+  const [pwLoading, setPwLoading] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
@@ -97,12 +102,20 @@ export default function Dashboard() {
             <h1 className="text-xl font-bold tracking-tight">Proof of Progress</h1>
             <p className="text-zinc-500 text-xs mt-1">{user?.email}</p>
           </div>
-          <button 
-            onClick={() => supabase.auth.signOut().then(() => router.push('/'))}
-            className="text-zinc-500 hover:text-white text-xs underline"
-          >
-            Logout
-          </button>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setShowChangePw(true)}
+              className="text-zinc-500 hover:text-white text-xs underline"
+            >
+              Change Password
+            </button>
+            <button 
+              onClick={() => supabase.auth.signOut().then(() => router.push('/'))}
+              className="text-zinc-500 hover:text-white text-xs underline"
+            >
+              Logout
+            </button>
+          </div>
         </div>
 
         {!commitment || isTerminal(commitment.status) ? (
@@ -246,6 +259,58 @@ export default function Dashboard() {
           </a>
         </div>
       </div>
+
+      {showChangePw && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4">
+          <div className="bg-zinc-950 border border-zinc-800 rounded p-6 w-full max-w-sm space-y-4">
+            <h2 className="text-base font-bold">Change Password</h2>
+            <input
+              type="password"
+              placeholder="New password (min. 8 characters)"
+              value={newPw}
+              onChange={(e) => setNewPw(e.target.value)}
+              className="w-full bg-zinc-900 border border-zinc-800 rounded px-4 py-3 text-sm"
+            />
+            <input
+              type="password"
+              placeholder="Confirm new password"
+              value={confirmPw}
+              onChange={(e) => setConfirmPw(e.target.value)}
+              className="w-full bg-zinc-900 border border-zinc-800 rounded px-4 py-3 text-sm"
+            />
+            {pwMsg && (
+              <p className={`text-xs ${pwMsg.startsWith('Error') ? 'text-red-400' : 'text-green-400'}`}>{pwMsg}</p>
+            )}
+            <div className="flex gap-3 pt-1">
+              <button
+                onClick={() => { setShowChangePw(false); setNewPw(''); setConfirmPw(''); setPwMsg('') }}
+                className="flex-1 border border-zinc-800 py-2 rounded text-sm"
+              >
+                Cancel
+              </button>
+              <button
+                disabled={pwLoading}
+                onClick={async () => {
+                  if (newPw.length < 8) { setPwMsg('Error: Password must be at least 8 characters.'); return }
+                  if (newPw !== confirmPw) { setPwMsg('Error: Passwords do not match.'); return }
+                  setPwLoading(true)
+                  const { error } = await supabase.auth.updateUser({ password: newPw })
+                  setPwLoading(false)
+                  if (error) {
+                    setPwMsg(`Error: ${error.message}`)
+                  } else {
+                    setPwMsg('Password updated successfully.')
+                    setTimeout(() => { setShowChangePw(false); setNewPw(''); setConfirmPw(''); setPwMsg('') }, 1500)
+                  }
+                }}
+                className="flex-1 bg-white text-black py-2 rounded text-sm font-bold disabled:opacity-50"
+              >
+                {pwLoading ? 'Saving...' : 'Save'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   )
 }

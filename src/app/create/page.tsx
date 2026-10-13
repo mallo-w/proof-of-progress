@@ -22,7 +22,7 @@ export default function CreateCommitment() {
     referee_email: '',
     stake_amount: 50,
     charity_name: '',
-    charity_percentage: 25,
+    charity_percentage: 0,
   })
 
   useEffect(() => {
@@ -244,12 +244,12 @@ export default function CreateCommitment() {
             </div>
             <div>
               <label className="block text-sm text-zinc-500 mb-2">Percentage of stake</label>
-              <div className="grid grid-cols-3 gap-3">
-                {[25, 33, 50].map((pct) => (
+              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+                {[0, 10, 20, 30, 40, 50].map((pct) => (
                   <button
                     key={pct}
                     onClick={() => setFormData({...formData, charity_percentage: pct})}
-                    className={`py-4 rounded font-bold border ${formData.charity_percentage === pct ? 'border-white bg-white text-black' : 'border-zinc-800'}`}
+                    className={`py-3 rounded font-bold border text-sm ${formData.charity_percentage === pct ? 'border-white bg-white text-black' : 'border-zinc-800'}`}
                   >
                     {pct}%
                   </button>
@@ -262,12 +262,12 @@ export default function CreateCommitment() {
             <div className="flex gap-4">
               <button onClick={handleBack} className="flex-1 border border-zinc-800 py-3 rounded font-bold">Back</button>
               <button
-                onClick={() => { setFormData({...formData, charity_name: '', charity_percentage: 25}); handleNext() }}
-                className="flex-1 border border-zinc-800 py-3 rounded font-bold text-zinc-400"
+                onClick={() => { setFormData({...formData, charity_name: '', charity_percentage: 0}); handleNext() }}
+                className="flex-1 bg-white text-black py-3 rounded font-bold"
               >
                 Skip
               </button>
-              <button onClick={handleNext} className="flex-1 bg-white text-black py-3 rounded font-bold">Next</button>
+              <button onClick={handleNext} className="flex-1 border border-zinc-800 py-3 rounded font-bold text-white">Next</button>
             </div>
           </div>
         )}
